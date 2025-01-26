@@ -1,0 +1,65 @@
+# Ignore Gradle build files
+/build/
+.gradle/
+
+# Ignore IDE specific files
+/.idea/
+/*.iml
+*.swp
+
+# Ignore temporary files and logs
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Ignore OS specific files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled Java classes
+*.class
+
+# Ignore JAR files
+*.jar
+
+# Ignore Maven specific files
+/target/
+
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
