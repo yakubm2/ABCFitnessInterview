@@ -3,6 +3,7 @@ package com.ABCFitness.Gym.controller;
 import com.ABCFitness.Gym.dto.BookingDTO;
 import com.ABCFitness.Gym.service.BookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,13 +52,15 @@ public class BookingControllerTest {
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper();
+        
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
     public void testCreateBooking_Success() throws Exception {
         BookingDTO bookingDTO = new BookingDTO();
         bookingDTO.setId(1L);
-        bookingDTO.setMemberName("Yakub Md");
+        bookingDTO.setMemberName("Yakub");
         bookingDTO.setClassId(2L);
         bookingDTO.setParticipationDate(LocalDate.now().plusDays(1));
 
@@ -107,7 +111,7 @@ public class BookingControllerTest {
 
     @Test
     public void testSearchBookings_NoResults() throws Exception {
-        when(bookingService.searchBookings(any(String.class), any(LocalDate.class), any(LocalDate.class)))
+        lenient().when(bookingService.searchBookings(any(String.class), any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/api/bookings/search")

@@ -5,6 +5,7 @@ import com.ABCFitness.Gym.dto.ClubClassDTO;
 import com.ABCFitness.Gym.model.ClubClass;
 import com.ABCFitness.Gym.repository.ClassRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class ClassControllerFunctionalTest {
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
@@ -61,7 +63,7 @@ public class ClassControllerFunctionalTest {
                 .andExpect(jsonPath("$.name").value("Yoga Class"))
                 .andExpect(jsonPath("$.startDate").value(LocalDate.now().plusDays(1).toString()))
                 .andExpect(jsonPath("$.endDate").value(LocalDate.now().plusDays(2).toString()))
-                .andExpect(jsonPath("$.startTime").value(LocalTime.of(10, 0).toString()))
+                .andExpect(jsonPath("$.startTime").value(LocalTime.of(10, 0).toString() + ":00"))
                 .andExpect(jsonPath("$.duration").value(60))
                 .andExpect(jsonPath("$.capacity").value(20));
     }

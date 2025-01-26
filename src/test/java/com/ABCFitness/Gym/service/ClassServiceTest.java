@@ -36,7 +36,7 @@ public class ClassServiceTest {
     private ClubClassDTO clubClassDTO;
     private ClubClass clubClass;
 
-    @BeforeEach
+   @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
@@ -48,9 +48,9 @@ public class ClassServiceTest {
         clubClass.setStartDate(LocalDate.now().plusDays(1));
         clubClass.setEndDate(LocalDate.now().plusDays(2));
 
-        when(classMapper.toEntity(clubClassDTO)).thenReturn(clubClass);
-        when(classMapper.toDTO(any(ClubClass.class))).thenReturn(clubClassDTO);
-    }
+        lenient().when(classMapper.toEntity(clubClassDTO)).thenReturn(clubClass);
+        lenient().when(classMapper.toDTO(any(ClubClass.class))).thenReturn(clubClassDTO);
+}
 
     @Test
     public void testCreateClass_Success() {
@@ -67,20 +67,21 @@ public class ClassServiceTest {
     @Test
     public void testCreateClass_ValidationFails_EndDateBeforeNow() {
         clubClassDTO.setEndDate(LocalDate.now().minusDays(1));
-
+        clubClass.setEndDate(LocalDate.now().minusDays(1));
+        when(classMapper.toEntity(clubClassDTO)).thenReturn(clubClass);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             classService.createClass(clubClassDTO);
         });
 
         assertEquals("End date must be in future", exception.getMessage());
-    }
+}
 
     @Test
     public void testCreateClass_ValidationFails_ClassAlreadyExistsOnDate() {
         when(classRepository.findByStartDate(any(LocalDate.class))).thenReturn(List.of(clubClass));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            classService.createClass(clubClassDTO);
+        classService.createClass(clubClassDTO);
         });
 
         assertEquals("A class already exists on this date", exception.getMessage());

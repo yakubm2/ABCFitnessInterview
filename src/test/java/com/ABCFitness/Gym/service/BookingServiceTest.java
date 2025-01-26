@@ -55,9 +55,9 @@ public class BookingServiceTest {
         booking.setClubClass(clubClass);
         booking.setParticipationDate(LocalDate.now().plusDays(1));
 
-        when(classRepository.findById(1L)).thenReturn(Optional.of(clubClass));
-        when(bookingMapper.toEntity(bookingDTO, clubClass)).thenReturn(booking);
-        when(bookingMapper.toDTO(any(Booking.class))).thenReturn(bookingDTO);
+        lenient().when(classRepository.findById(1L)).thenReturn(Optional.of(clubClass));
+        lenient().when(bookingMapper.toEntity(bookingDTO, clubClass)).thenReturn(booking);
+        lenient().when(bookingMapper.toDTO(any(Booking.class))).thenReturn(bookingDTO);
     }
 
     @Test
