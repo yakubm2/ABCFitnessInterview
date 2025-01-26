@@ -11,6 +11,7 @@ import com.ABCFitness.Gym.model.ClubClass;
 import com.ABCFitness.Gym.model.Booking;
 import com.ABCFitness.Gym.repository.BookingRepository;
 import com.ABCFitness.Gym.repository.ClassRepository;
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -31,28 +32,18 @@ public class BookingService {
     @Autowired
     private BookingMapper bookingMapper;
 
-    @Transactional
-    public ClubClass createClass(ClubClass clubClass) {
-        // Validate that there's only one class per day
-        validateUniqueClassPerDay(clubClass);
-        return classRepository.save(clubClass);
-    }
 
     @Transactional
     public BookingDTO createBooking(BookingDTO bookingDTO) {
         // Check class capacity
-        ClubClass clubClass = null;
+        ClubClass clubClass =  classRepository.findById(bookingDTO.getClassId())
+                .orElseThrow(() -> new EntityNotFoundException("Class not found"));
         Booking booking = bookingMapper.toEntity(bookingDTO, clubClass);
         validateClassCapacity(booking);
         Booking saveBooking = bookingRepository.save(booking);
         return bookingMapper.toDTO(saveBooking);
     }
 
-    private void validateUniqueClassPerDay(ClubClass clubClass) {
-        // Implementation to ensure one class per day
-        // This would involve checking existing classes 
-        // against the new class's date range
-    }
 
     private void validateClassCapacity(Booking booking) {
         int existingBookings = bookingRepository.countByClubClassAndParticipationDate(
