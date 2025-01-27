@@ -58,11 +58,11 @@ public class BookingControllerFunctionalTest {
         clubClass.setStartDate(LocalDate.now().plusDays(1));
         clubClass.setEndDate(LocalDate.now().plusDays(2));
         clubClass.setCapacity(20);
-        classRepository.save(clubClass);
+        ClubClass savedClubClass = classRepository.save(clubClass);
 
         BookingDTO bookingDTO = new BookingDTO();
         bookingDTO.setMemberName("Yakub Md");
-        bookingDTO.setClassId(clubClass.getId());
+        bookingDTO.setClassId(savedClubClass.getId());
         bookingDTO.setParticipationDate(LocalDate.now().plusDays(1));
 
         mockMvc.perform(post("/api/bookings")

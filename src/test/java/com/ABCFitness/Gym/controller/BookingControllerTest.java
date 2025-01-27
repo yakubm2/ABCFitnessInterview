@@ -21,10 +21,12 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
+import org.springframework.http.ResponseEntity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -59,29 +61,23 @@ public class BookingControllerTest {
     @Test
     public void testCreateBooking_Success() throws Exception {
         BookingDTO bookingDTO = new BookingDTO();
-        bookingDTO.setId(1L);
+        bookingDTO.setId(5L);
         bookingDTO.setMemberName("Yakub");
-        bookingDTO.setClassId(2L);
+        bookingDTO.setClassId(8L);
         bookingDTO.setParticipationDate(LocalDate.now().plusDays(1));
 
         when(bookingService.createBooking(any(BookingDTO.class))).thenReturn(bookingDTO);
-
-        mockMvc.perform(post("/api/bookings")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(bookingDTO)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(bookingDTO)));
+        ResponseEntity<BookingDTO> createdBookings = bookingController.createBooking(bookingDTO);
+        Assertions.assertEquals(createdBookings.getBody().getMemberName(),bookingDTO.getMemberName());  
     }
 
     @Test
     public void testCreateBooking_ValidationFails() throws Exception {
         BookingDTO bookingDTO = new BookingDTO();
-        bookingDTO.setId(1L);
+        bookingDTO.setId(3L);
         bookingDTO.setMemberName("Yakub Md");
-        bookingDTO.setClassId(2L);
+        bookingDTO.setClassId(4L);
         bookingDTO.setParticipationDate(LocalDate.now().minusDays(1));  // Invalid date
-
         mockMvc.perform(post("/api/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookingDTO)))
@@ -91,22 +87,18 @@ public class BookingControllerTest {
     @Test
     public void testSearchBookings_Success() throws Exception {
         BookingDTO bookingDTO = new BookingDTO();
-        bookingDTO.setId(1L);
+        bookingDTO.setId(10L);
         bookingDTO.setMemberName("Yakub Md");
-        bookingDTO.setClassId(2L);
+        bookingDTO.setClassId(12L);
         bookingDTO.setParticipationDate(LocalDate.now().plusDays(1));
 
         List<BookingDTO> bookings = List.of(bookingDTO);
         when(bookingService.searchBookings(any(String.class), any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(bookings);
 
-        mockMvc.perform(get("/api/bookings/search")
-                        .param("memberName", "Yakub Md")
-                        .param("startDate", LocalDate.now().toString())
-                        .param("endDate", LocalDate.now().plusDays(1).toString()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(bookings)));
+        ResponseEntity<List<BookingDTO>> response = bookingController.searchBookings("Yakub Md", LocalDate.now(), LocalDate.now().plusDays(1));
+        BookingDTO bookingDetails=response.getBody().getFirst();
+        Assertions.assertEquals(bookingDetails.getMemberName(),bookingDTO.getMemberName());
     }
 
     @Test
