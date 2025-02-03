@@ -5,10 +5,6 @@ import com.ABCFitness.Gym.model.Booking;
 import com.ABCFitness.Gym.model.ClubClass;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author yakub
- */
 @Component
 public class BookingMapper {
     public Booking toEntity(BookingDTO dto, ClubClass clubClass) {

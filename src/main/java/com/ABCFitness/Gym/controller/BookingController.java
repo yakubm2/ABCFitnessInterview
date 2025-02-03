@@ -21,7 +21,7 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    @PostMapping
+    @PostMapping("/bookclass")
     public ResponseEntity<BookingDTO> createBooking(@Valid @RequestBody BookingDTO booking) {
         return ResponseEntity.ok(bookingService.createBooking(booking));
     }

@@ -4,7 +4,6 @@ package com.ABCFitness.Gym.service;
 import com.ABCFitness.Gym.dto.ClubClassDTO;
 import com.ABCFitness.Gym.mapper.ClassMapper;
 import com.ABCFitness.Gym.model.ClubClass;
-import com.ABCFitness.Gym.repository.ClassRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import com.ABCFitness.Gym.repository.ClubClassRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class ClassServiceTest {
@@ -28,7 +28,7 @@ public class ClassServiceTest {
     private ClassService classService;
 
     @Mock
-    private ClassRepository classRepository;
+    private ClubClassRepository classRepository;
 
     @Mock
     private ClassMapper classMapper;

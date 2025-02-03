@@ -16,7 +16,7 @@ public class ClassController {
     @Autowired
     private ClassService classService;
 
-    @PostMapping
+    @PostMapping("/createClass")
     public ResponseEntity<ClubClassDTO> createClass(@Valid @RequestBody ClubClassDTO clubClass) {
         return ResponseEntity.ok(classService.createClass(clubClass));
     }

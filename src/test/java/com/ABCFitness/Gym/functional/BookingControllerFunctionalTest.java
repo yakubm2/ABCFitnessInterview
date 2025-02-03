@@ -5,7 +5,7 @@ import com.ABCFitness.Gym.dto.BookingDTO;
 import com.ABCFitness.Gym.model.Booking;
 import com.ABCFitness.Gym.model.ClubClass;
 import com.ABCFitness.Gym.repository.BookingRepository;
-import com.ABCFitness.Gym.repository.ClassRepository;
+import com.ABCFitness.Gym.repository.ClubClassRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ public class BookingControllerFunctionalTest {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private ClassRepository classRepository;
+    private ClubClassRepository classRepository;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -65,7 +65,7 @@ public class BookingControllerFunctionalTest {
         bookingDTO.setClassId(savedClubClass.getId());
         bookingDTO.setParticipationDate(LocalDate.now().plusDays(1));
 
-        mockMvc.perform(post("/api/bookings")
+        mockMvc.perform(post("/api/bookings/bookclass")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookingDTO)))
                 .andExpect(status().isOk())

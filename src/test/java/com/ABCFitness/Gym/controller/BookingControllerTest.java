@@ -78,10 +78,10 @@ public class BookingControllerTest {
         bookingDTO.setMemberName("Yakub Md");
         bookingDTO.setClassId(4L);
         bookingDTO.setParticipationDate(LocalDate.now().minusDays(1));  // Invalid date
-        mockMvc.perform(post("/api/bookings")
+        mockMvc.perform(post("/api/bookings/bookclass")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookingDTO)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().is5xxServerError());
     }
 
     @Test

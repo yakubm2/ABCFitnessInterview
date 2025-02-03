@@ -6,7 +6,7 @@ import com.ABCFitness.Gym.mapper.BookingMapper;
 import com.ABCFitness.Gym.model.ClubClass;
 import com.ABCFitness.Gym.model.Booking;
 import com.ABCFitness.Gym.repository.BookingRepository;
-import com.ABCFitness.Gym.repository.ClassRepository;
+import com.ABCFitness.Gym.repository.ClubClassRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class BookingServiceTest {
     private BookingService bookingService;
 
     @Mock
-    private ClassRepository classRepository;
+    private ClubClassRepository classRepository;
 
     @Mock
     private BookingRepository bookingRepository;

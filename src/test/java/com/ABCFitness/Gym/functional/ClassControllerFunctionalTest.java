@@ -3,7 +3,6 @@ package com.ABCFitness.Gym.functional;
 
 import com.ABCFitness.Gym.dto.ClubClassDTO;
 import com.ABCFitness.Gym.model.ClubClass;
-import com.ABCFitness.Gym.repository.ClassRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.ABCFitness.Gym.repository.ClubClassRepository;
 
 @SpringBootTest
 @Transactional
@@ -33,7 +33,7 @@ public class ClassControllerFunctionalTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private ClassRepository classRepository;
+    private ClubClassRepository classRepository;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -55,7 +55,7 @@ public class ClassControllerFunctionalTest {
         clubClassDTO.setDuration(60);
         clubClassDTO.setCapacity(20);
 
-        mockMvc.perform(post("/api/classes")
+        mockMvc.perform(post("/api/classes/createClass")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clubClassDTO)))
                 .andExpect(status().isOk())
